@@ -1,5 +1,6 @@
 #include <unistd.h>
 #include <stdarg.h>
+#include "main.h"
 
 /**
  * print_string - print a string
@@ -89,9 +90,7 @@ int _print_number(int n)
     return _putchar(n % 10 + '0');
 }
 
-#include <unistd.h>
-#include <stdarg.h>
-#include "main.h"
+
 
 /**
  * _printf - Custom printf function
