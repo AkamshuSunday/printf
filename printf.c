@@ -1,194 +1,88 @@
-#include <unistd.h>
-#include <stdarg.h>
 #include "main.h"
 
-/**
- * print_string - print a string
- * @str: string argument
- *
- * Return: length of string
- */
-
-int print_string(const char *str)
-{
-	unsigned int string_len = 0;
-
-	while (str[string_len] != '\0')
-	{
-		string_len++;
-	}
-	write(1, str, string_len);
-	return (string_len);
-}
+/* Function to print the contents of the buffer and reset the index */
+void print_buffer(char buffer[], int *buff_ind);
 
 /**
- * _printf - produces output according to a format
- * @format: character string
- * @...: arguments
- *
- * Return: the number of characters printed excluding null byte
+ * _printf - Custom implementation of printf function.
+ * @format: Format string with optional specifiers.
+ * Return: Number of characters printed.
  */
-
 int _printf(const char *format, ...)
 {
-	va_list args;
-	unsigned int counter = 0;
-	char c_args;
+    int i, printed = 0, printed_chars = 0;
+    int flags, width, precision, size, buff_ind = 0;
+    va_list list;
+    char buffer[BUFF_SIZE];
 
-	va_start(args, format);
-	while (*format != '\0')
-	{
-		if (*format == '%')
-		{
-			format++;
-			switch (*format)
-			{
-				case 'c':
-					c_args = va_arg(args, int);
-					write(1, &c_args, 1);
-					counter++;
-					break;
-				case 's':
-					counter += print_string(va_arg(args, char *));
-					break;
-				case '%':
-					write(1, format, 1);
-					counter++;
-					break;
-				default:
-					break;
-			}
-		}
-		else
-		{
-			write(1, format, 1);
-			counter++;
-		}
-		format++;
-	}
-	va_end(args);
-	return (counter);
-}
+    /* Check if the format string is not NULL */
+    if (format == NULL)
+        return (-1);
 
-/**
- * _print_number - Prints an integer
- * @n: The integer to print
- *
- * Return: Number of characters printed
- */
-int _print_number(int n)
-{
-    if (n < 0)
+    /* Initialize the variable argument list */
+    va_start(list, format);
+
+    /* Loop through the characters in the format string */
+    for (i = 0; format && format[i] != '\0'; i++)
     {
-        _putchar('-');
-        n = -n;
-    }
-
-    if (n / 10)
-        _print_number(n / 10);
-
-    return _putchar(n % 10 + '0');
-}
-
-
-
-/**
- * _printf - Custom printf function
- * @format: Format string
- *
- * Return: Number of characters printed (excluding null byte)
- */
-
-
-        if (*format == '%' && *(format + 1) != '\0')
+        /* If the character is not '%', add it to the buffer */
+        if (format[i] != '%')
         {
-            format++; /* Move past '%' */
-            switch (*format)
-            {
-            case 'c':
-                count += _putchar(va_arg(args, int));
-                break;
-            case 's':
-                count += _puts(va_arg(args, char *));
-                break;
-            case 'i':
-                count += _print_number(va_arg(args, int));
-                break;
-            case 'u':
-                count += _print_unsigned(va_arg(args, unsigned int));
-                break;
-            case 'o':
-                count += _print_octal(va_arg(args, unsigned int));
-                break;
-            case 'x':
-                count += _print_hex(va_arg(args, unsigned int), 0);
-                break;
-            case 'X':
-                count += _print_hex(va_arg(args, unsigned int), 1);
-                break;
-            case '%':
-                count += _putchar('%');
-                break;
-            default:
-                count += _putchar('%') + _putchar(*format);
-                break;
-            }
+            buffer[buff_ind++] = format[i];
+            
+            /* Check if the buffer is full, and print its contents if so */
+            if (buff_ind == BUFF_SIZE)
+                print_buffer(buffer, &buff_ind);
+
+            printed_chars++;
         }
         else
         {
-            count += _putchar(*format);
+            /* Print the buffer contents before handling the specifier */
+            print_buffer(buffer, &buff_ind);
+
+            /* Get the flags, width, precision, and size for the specifier */
+            flags = get_flags(format, &i);
+            width = get_width(format, &i, list);
+            precision = get_precision(format, &i, list);
+            size = get_size(format, &i);
+            
+            /* Move to the next character after '%' */
+            ++i;
+
+            /* Handle the specifier and get the number of characters printed */
+            printed = handle_print(format, &i, list, buffer,
+                                   flags, width, precision, size);
+
+            /* Check for error during handling and return -1 if needed */
+            if (printed == -1)
+                return (-1);
+
+            printed_chars += printed;
         }
-        format++;
-	{
+    }
 
-    va_end(args);
+    /* Print the remaining contents of the buffer */
+    print_buffer(buffer, &buff_ind);
 
-    return count;
-   }
+    /* End the variable argument list */
+    va_end(list);
 
-
-/**
- * _print_unsigned - Prints an unsigned integer
- * @n: The unsigned integer to print
- *
- * Return: Number of characters printed
- */
-int _print_unsigned(unsigned int n)
-{
-    if (n / 10)
-        _print_unsigned(n / 10);
-
-    return _putchar(n % 10 + '0');
+    return (printed_chars);
 }
 
 /**
- * _print_octal - Prints an octal number
- * @n: The unsigned integer to print as octal
- *
- * Return: Number of characters printed
+ * print_buffer - Prints the contents of the buffer if it exists.
+ * @buffer: Array of characters to be printed.
+ * @buff_ind: Index at which to add the next character, represents the length.
  */
-int _print_octal(unsigned int n)
+void print_buffer(char buffer[], int *buff_ind)
 {
-    if (n / 8)
-        _print_octal(n / 8);
+    /* Check if the buffer contains any characters */
+    if (*buff_ind > 0)
+        write(1, &buffer[0], *buff_ind);
 
-    return _putchar(n % 8 + '0');
-}
-
-/**
- * _print_hex - Prints a hexadecimal number
- * @n: The unsigned integer to print as hexadecimal
- * @uppercase: Flag to print uppercase letters (1) or lowercase (0)
- *
- * Return: Number of characters printed
- */
-int _print_hex(unsigned int n, int uppercase)
-{
-    char *hex_digits = uppercase ? "0123456789ABCDEF" : "0123456789abcdef";
-
-    if (n / 16)
-        _print_hex(n / 16, uppercase);
-
-    return _putchar(hex_digits[n % 16]);
+    /* Reset the buffer index */
+    *buff_ind = 0;
 }
 
