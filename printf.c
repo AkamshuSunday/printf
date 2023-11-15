@@ -140,11 +140,12 @@ int _print_number(int n)
             count += _putchar(*format);
         }
         format++;
-    }
+	{
 
     va_end(args);
 
     return count;
+   }
 }
 
 /**
