@@ -99,7 +99,7 @@ int _print_number(int n)
  * Return: Number of characters printed (excluding null byte)
  */
 
-{
+
         if (*format == '%' && *(format + 1) != '\0')
         {
             format++; /* Move past '%' */
@@ -111,7 +111,6 @@ int _print_number(int n)
             case 's':
                 count += _puts(va_arg(args, char *));
                 break;
-            case 'd':
             case 'i':
                 count += _print_number(va_arg(args, int));
                 break;
@@ -146,7 +145,7 @@ int _print_number(int n)
 
     return count;
    }
-}
+
 
 /**
  * _print_unsigned - Prints an unsigned integer
