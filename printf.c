@@ -98,15 +98,8 @@ int _print_number(int n)
  *
  * Return: Number of characters printed (excluding null byte)
  */
-int _printf(const char *format, ...)
+
 {
-    va_list args;
-    int count = 0;
-
-    va_start(args, format);
-
-    while (format && *format)
-    {
         if (*format == '%' && *(format + 1) != '\0')
         {
             format++; /* Move past '%' */
