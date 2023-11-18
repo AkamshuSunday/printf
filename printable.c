@@ -71,11 +71,11 @@ long int convert_size_number(long int num, int size)
 }
 
 /**
- * convert_size_unsgnd - Casts an unsigned number to the specified size.
- *
+ * convert_size_unsgnd - Casts an unsigned number to the specified size
  * @param num: The number to be casted.
  * @param size: The size indicating the type to be casted.
- * @return: The casted value of num.
+ *
+ * Return: The casted value of num.
  */
 long int convert_size_unsgnd(unsigned long int num, int size)
 {
