@@ -16,11 +16,11 @@ int is_printable(char c)
 
 /**
  * append_hexa_code - Appends ASCII in hexadecimal code to the buffer.
- *
  * @param buffer: Array of characters.
  * @param i: Index at which to start appending.
  * @param ascii_code: ASCII code to be appended.
- * @return: Always 3.
+ * 
+ * Return: Always 3.
  */
 int append_hexa_code(char ascii_code, char buffer[], int i)
 {
