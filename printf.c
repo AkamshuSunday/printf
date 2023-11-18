@@ -86,4 +86,3 @@ void print_buffer(char buffer[], int *buff_ind)
     /* Reset the buffer index */
     *buff_ind = 0;
 }
-
