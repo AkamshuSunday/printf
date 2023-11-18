@@ -41,9 +41,9 @@ int append_hexa_code(char ascii_code, char buffer[], int i)
 
 /**
  * is_digit - Checks if a character is a digit.
- *
  * @param c: The character to be evaluated.
- * @return: 1 if c is a digit, 0 otherwise.
+ *
+ * Return: 1 if c is a digit, 0 otherwise.
  */
 int is_digit(char c)
 {
