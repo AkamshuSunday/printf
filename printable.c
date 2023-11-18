@@ -55,10 +55,10 @@ int is_digit(char c)
 
 /**
  * convert_size_number - Casts a number to the specified size.
- *
  * @param num: The number to be casted.
  * @param size: The size indicating the type to be casted.
- * @return: The casted value of num.
+ * 
+ * Return: The casted value of num.
  */
 long int convert_size_number(long int num, int size)
 {
