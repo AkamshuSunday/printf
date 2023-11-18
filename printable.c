@@ -2,9 +2,9 @@
 
 /**
  * is_printable - Determines if a character is printable.
- *
  * @param c: The character to be evaluated.
- * @return: 1 if c is printable, 0 otherwise.
+ *
+ * Return: 1 if c is printable, 0 otherwise.
  */
 int is_printable(char c)
 {
