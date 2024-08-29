@@ -1,5 +1,5 @@
 Project Overview
-This project represents a significant milestone in your program, allowing you to apply concepts learned so far in a real-world scenario. The primary objective is to create a custom version of the printf function in the C programming language, enhancing your understanding of key language features.
+This project represents a significant milestone in our program, allowing us to apply concepts learned so far in a real-world scenario. The primary objective is to create a custom version of the printf function in the C programming language, enhancing your understanding of key language features.
 
 Importance of printf
 The printf function is a versatile and crucial tool in C programming for formatted output. Developing your version provides a deep insight into language intricacies, fostering a comprehensive understanding.
